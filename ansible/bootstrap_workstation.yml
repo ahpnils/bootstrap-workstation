@@ -1,0 +1,7 @@
+---
+- name: Workstation Bootstrap Playbook
+  hosts: local
+  become: true
+  roles:
+    - { role: bootstrap_workstation }
+# vim:ts=2:sw=2

@@ -24,10 +24,14 @@ devdeps:
 	sudo dnf --assumeyes install ansible-core \
 		ansible-collection-community-general \
 		ansible-collection-ansible-posix \
-		python3-ansible-lint
+		python3-ansible-lint \
+		ShellCheck
 
 lint:
-	ansible-lint ./ansible/bootstrap_workstation.yml
+	ansible-lint ./ansible/playbooks/bootstrap_workstation.yml
+
+scheck:
+	shellcheck -x ./bin/bootstrap.sh
 
 serve: 
 	python3 -m http.server ${HTTP_PORT}

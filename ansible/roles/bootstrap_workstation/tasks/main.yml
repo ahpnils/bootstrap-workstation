@@ -1,2 +1,86 @@
 ---
 # tasks file for bootstrap_workstation
+
+- name: "Install mandatory packages for role execution"
+  tags:
+    - packages
+  ansible.builtin.package:
+    name: "{{ ws_dep_pkg_list }}"
+    state: present
+
+- name: "Install RPMFusion repositories packages"
+  tags:
+    - packages
+  ansible.builtin.dnf:
+    name: 
+      - "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+      - "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+    disable_gpg_check: true
+    state: present
+
+- name: "Install some basic packages"
+  tags:
+    - packages
+  ansible.builtin.package:
+    name: "{{ ws_pkg_list }}"
+    state: present
+
+- name: "Add the flathub remote from the system installation"
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+
+- name: "Install more software with flatpack"
+  tags:
+    - packages
+    - flatpak
+  community.general.flatpak:
+    name: "{{ ws_pak_list }}"
+    state: present
+
+- name: Register Bash path
+  tags:
+    - users
+  ansible.builtin.shell: PATH=/bin:/sbin:$PATH command -v bash
+  register: bash_path
+  ignore_errors: true
+  become: false
+  changed_when: false
+
+- name: "Create basic users groups"
+  tags:
+    - users
+  ansible.builtin.group:
+    name: "{{ item.name }}"
+    gid: "{{ item.uid }}"
+    state: present
+  with_items: "{{ ws_users }}"
+
+- name: "Create basic users"
+  tags:
+    - users
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    group: "{{ item.name }}"
+    groups: wheel
+    uid: "{{ item.uid }}"
+    shell: "{{ bash_path.stdout }}"
+    state: present
+    home: "/home/{{ item.name }}"
+    comment: "{{ item.comment }}"
+    create_home: true
+  with_items: "{{ ws_users }}"
+
+- name: "Create users' directory structure"
+  tags:
+    - users
+  ansible.builtin.file:
+    path: "/home/{{ item.0.name }}/{{ item.1 }}"
+    state: directory
+    mode: 0700
+    owner: "{{ item.0.name }}"
+    group: "{{ item.0.name }}"
+    force: true
+    recurse: true
+  loop: "{{ ws_users | product(ws_directory_structure) | list }}"
+

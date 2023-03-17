@@ -1,6 +1,6 @@
 ---
 - name: Workstation Bootstrap Playbook
-  hosts: local
+  hosts: localhost
   become: true
   roles:
     - { role: bootstrap_workstation }

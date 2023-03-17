@@ -1,2 +1,49 @@
 ---
 # vars file for bootstrap_workstation
+
+ws_dep_pkg_list:
+  - python3-psutil
+
+ws_pkg_list:
+  - ccze
+  - tmux
+  - rsync
+  - make
+  - bash-completion
+  - vim-enhanced
+  - most
+  - htop
+  - git-delta
+  - bat
+  - ShellCheck
+  - exa
+  - btop
+  - tree
+  - iftop
+  - gnome-tweaks
+
+ws_pak_list:
+  - com.spotify.Client
+  - com.discordapp.Discord
+  - com.jgraph.drawio.desktop
+  - org.signal.Signal
+  - org.telegram.desktop
+  #- com.obsproject.Studio
+  #- org.blender.Blender
+
+ws_users:
+  - name: nils
+    uid: 5001
+    comment: "Nils Ratusznik"
+
+ws_directory_structure:
+  - "bin"
+  - "git/github"
+  - "libvirt/boot"
+  - "libvirt/images"
+  - "libvirt/cloud-init"
+  - "libvirt/scripts"
+  - "Pictures/Screenshots"
+  - "Pictures/Wallpapers"
+  - "shares"
+  - "tmp"

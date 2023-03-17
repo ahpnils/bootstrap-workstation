@@ -21,6 +21,12 @@ ws_pkg_list:
   - tree
   - iftop
   - gnome-tweaks
+  - lm_sensors
+
+ws_fusion_pkg_list:
+  - vlc
+  - gstreamer1-plugins-bad-freeworld
+  - gstreamer1-plugins-ugly
 
 ws_pak_list:
   - com.spotify.Client
@@ -28,8 +34,8 @@ ws_pak_list:
   - com.jgraph.drawio.desktop
   - org.signal.Signal
   - org.telegram.desktop
-  #- com.obsproject.Studio
-  #- org.blender.Blender
+  # - com.obsproject.Studio
+  # - org.blender.Blender
 
 ws_users:
   - name: nils

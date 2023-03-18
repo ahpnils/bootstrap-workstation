@@ -21,7 +21,12 @@ ws_pkg_list:
   - tree
   - iftop
   - gnome-tweaks
+  - tilix
   - lm_sensors
+  - gh
+  - tree
+  - gnome-shell-extension-freon
+  - gnome-shell-extension-caffeine
 
 ws_fusion_pkg_list:
   - vlc
@@ -34,6 +39,7 @@ ws_pak_list:
   - com.jgraph.drawio.desktop
   - org.signal.Signal
   - org.telegram.desktop
+  # - org.gnome.Extensions
   # - com.obsproject.Studio
   # - org.blender.Blender
 
@@ -44,11 +50,12 @@ ws_users:
 
 ws_directory_structure:
   - "bin"
-  - "git/github"
+  - "git/github/ahpnils"
   - "libvirt/boot"
   - "libvirt/images"
   - "libvirt/cloud-init"
   - "libvirt/scripts"
+  - "Pictures/Avatars"
   - "Pictures/Screenshots"
   - "Pictures/Wallpapers"
   - "shares"

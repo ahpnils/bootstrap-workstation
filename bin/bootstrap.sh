@@ -61,7 +61,8 @@ set -o errexit
 echo "Done !"
 
 echo "Executing the playbook..."
-ansible-playbook ./ansible/playbooks/bootstrap_workstation.yml
+ANSIBLE_LOCALHOST_WARNING=False \
+	ansible-playbook ./ansible/playbooks/bootstrap_workstation.yml
 echo "Done !"
  
 # vim:ts=2:sw=2

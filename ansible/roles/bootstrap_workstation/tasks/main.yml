@@ -18,6 +18,34 @@
     disable_gpg_check: true
     state: present
 
+- name: "Add hashicorp repo"
+  ansible.builtin.yum_repository:
+    name: "hashicorp"
+    description: "Hashicorp Stable - $basearch"
+    file: "/etc/yum.repos.d/hashicorp.repo"
+    baseurl: "https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable"
+    gpgkey: "https://rpm.releases.hashicorp.com/gpg"
+    gpgcheck: true
+    enabled: true
+
+- name: "Add google-cloud-cli repo"
+  ansible.builtin.yum_repository:
+    name: "google-cloud-cli"
+    description: "Google Cloud CLI"
+    file: "/etc/yum.repos.d/google-cloud-sdk.repo"
+    baseurl: "https://packages.cloud.google.com/yum/repos/cloud-sdk-el8-x86_64"
+    gpgkey:
+      - "https://packages.cloud.google.com/yum/doc/yum-key.gpg"
+      - "https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg"
+    gpgcheck: true
+    enabled: true
+
+- name: "Add glow Copr repository"
+  community.general.copr:
+    host: "copr.fedorainfracloud.org"
+    state: enabled
+    name: "keefle/glow"
+
 - name: "Install some basic packages"
   tags:
     - packages
@@ -78,6 +106,17 @@
     create_home: true
   with_items: "{{ ws_users }}"
 
+- name: "Copy sudo configuration"
+  tags:
+    - users
+    - sudo
+  ansible.builtin.copy:
+    src: "files/sudoers_d_nils"
+    dest: "/etc/sudoers.d/nils"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
 - name: "Create users' directory structure"
   tags:
     - users
@@ -90,3 +129,84 @@
     force: true
     recurse: true
   loop: "{{ ws_users | product(ws_directory_structure) | list }}"
+
+- name: "Check if dotfiles are already present"
+  tags:
+    - users
+    - git
+  ansible.builtin.stat:
+    path: /home/nils/git/github/ahpnils/dotfiles
+  register: dotfiles_present
+
+- name: "Clone dotfiles git repository"
+  tags:
+    - users
+    - git
+  become_user: "nils"
+  when: not dotfiles_present.stat.exists
+  ansible.builtin.git:
+    repo: "https://github.com/ahpnils/dotfiles.git"
+    dest: "/home/nils/git/github/ahpnils/dotfiles/"
+    clone: true
+    update: true
+    umask: "0022"
+    force: true
+
+- name: "Check if Vundle plugins are already installed"
+  tags:
+    - users
+    - git
+  ansible.builtin.stat:
+    path: /home/nils/git/github/others/Vundle.vim
+  register: vundle_present
+
+- name: "Execute dotfiles' Makefile"
+  become_user: "nils"
+  community.general.make:
+    chdir: "/home/nils/git/github/ahpnils/dotfiles"
+    target: install
+
+- name: "Execute dotfiles' Makefile for Vim stuff"
+  become_user: "nils"
+  when: not vundle_present.stat.exists
+  community.general.make:
+    chdir: "/home/nils/git/github/ahpnils/dotfiles"
+    target: vim-deps
+
+- name: "Copy wallpaper file"
+  tags:
+    - gnome
+  ansible.builtin.copy:
+    src: "files/wallpaper_sheep.png"
+    dest: "/home/nils/Pictures/Wallpapers/wallpaper_sheep.png"
+    owner: "nils"
+    group: "nils"
+    mode: "0644"
+
+- name: "Copy avatar file"
+  tags:
+    - gnome
+  ansible.builtin.copy:
+    src: "files/avatar_sheep.png"
+    dest: "/home/nils/Pictures/Avatars/avatar_sheep.png"
+    owner: "nils"
+    group: "nils"
+    mode: "0644"
+
+- name: "Set GNOME wallpaper"
+  tags:
+    - gnome
+  become_user: "nils"
+  community.general.dconf:
+    key: "/org/gnome/desktop/background/picture-uri"
+    value: "'file:///home/nils/Pictures/Wallpapers/wallpaper_sheep.png'"
+
+- name: "Set lock screen background"
+  tags:
+    - gnome
+  become_user: "nils"
+  community.general.dconf:
+    key: "/org/gnome/desktop/screensaver/picture-uri"
+    value: "'file:///home/nils/Pictures/Wallpapers/wallpaper_sheep.png'"
+
+# vim:ts=2:sw=2

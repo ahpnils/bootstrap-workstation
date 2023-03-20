@@ -33,6 +33,11 @@ ws_fusion_pkg_list:
   - gstreamer1-plugins-bad-freeworld
   - gstreamer1-plugins-ugly
 
+ws_misc_pkg_list:
+  - google-cloud-cli
+  - glow
+  # - terraform
+
 ws_pak_list:
   - com.spotify.Client
   - com.discordapp.Discord

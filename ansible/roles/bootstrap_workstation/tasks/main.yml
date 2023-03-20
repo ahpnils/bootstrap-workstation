@@ -60,6 +60,13 @@
     name: "{{ ws_fusion_pkg_list }}"
     state: present
 
+- name: "Install packages from misc repositories"
+  tags:
+    - packages
+  ansible.builtin.package:
+    name: "{{ ws_misc_pkg_list }}"
+    state: present
+
 - name: "Add the flathub remote from the system installation"
   community.general.flatpak_remote:
     name: flathub

@@ -155,6 +155,7 @@
   ansible.builtin.git:
     repo: "https://github.com/ahpnils/dotfiles.git"
     dest: "/home/nils/git/github/ahpnils/dotfiles/"
+    version: "af977d3"
     clone: true
     update: true
     umask: "0022"
@@ -250,10 +251,31 @@
   tags:
     - gnome
   become_user: "nils"
-  ansible.builtin.command: "gsettings set org.gnome.gnome-screenshot auto-save-directory '/home/nils/Pictures/Screenshots'"
-  changed_when: false
+  community.general.dconf:
+    key: "/org/gnome/gnome-screenshot/auto-save-directory"
+    value: "'/home/nils/Pictures/Screenshots'"
 
-    # gsettings get org.gnome.shell favorite-apps
-    # ['com.gexperts.Tilix.desktop', 'org.keepassxc.KeePassXC.desktop', 'firefox.desktop', 'firefox-dev.desktop', 'mozilla-thunderbird.desktop', 'com.discordapp.Discord.desktop', 'org.signal.Signal.desktop', 'io.github.Hexchat.desktop', 'org.telegram.desktop.desktop', 'virt-manager.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Settings.desktop', 'org.gnome.tweaks.desktop', 'com.obsproject.Studio.desktop', 'com.spotify.Client.desktop']
+- name: "Set favorite applications"
+  tags:
+    - gnome
+  become_user: "nils"
+  community.general.dconf:
+    key: "/org/gnome/shell/favorite-apps"
+    value:
+      - "com.gexperts.Tilix.desktop"
+      - "org.keepassxc.KeePassXC.desktop"
+      - "firefox.desktop"
+      - "firefox-dev.desktop"
+      # - "mozilla-thunderbird.desktop"
+      - "com.discordapp.Discord.desktop"
+      - "org.signal.Signal.desktop"
+      - "io.github.Hexchat.desktop"
+      - "org.telegram.desktop.desktop"
+      # - "virt-manager.desktop"
+      - "org.gnome.Nautilus.desktop"
+      - "org.gnome.Settings.desktop"
+      - "org.gnome.tweaks.desktop"
+      # - "com.obsproject.Studio.desktop"
+      - "com.spotify.Client.desktop"
 
 # vim:ts=2:sw=2

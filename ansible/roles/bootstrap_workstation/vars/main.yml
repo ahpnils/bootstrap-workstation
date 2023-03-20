@@ -25,6 +25,7 @@ ws_pkg_list:
   - lm_sensors
   - gh
   - tree
+  - keepassxc
   - gnome-shell-extension-freon
   - gnome-shell-extension-caffeine
 

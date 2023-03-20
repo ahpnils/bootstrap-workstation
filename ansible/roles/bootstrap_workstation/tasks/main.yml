@@ -80,7 +80,6 @@
     name: "{{ ws_pak_list }}"
     state: present
 
-
 - name: Register Bash path
   tags:
     - users
@@ -155,7 +154,7 @@
   ansible.builtin.git:
     repo: "https://github.com/ahpnils/dotfiles.git"
     dest: "/home/nils/git/github/ahpnils/dotfiles/"
-    version: "af977d3"
+    version: "{{ ws_dotfiles_commit }}"
     clone: true
     update: true
     umask: "0022"
@@ -169,27 +168,47 @@
     path: /home/nils/git/github/others/Vundle.vim
   register: vundle_present
 
-- name: "Execute dotfiles' Makefile"
-  become_user: "nils"
-  community.general.make:
-    chdir: "/home/nils/git/github/ahpnils/dotfiles"
-    target: install
-
-- name: "Execute dotfiles' Makefile for Vim stuff"
+- name: "Clone Vundle git repository"
+  tags:
+    - users
+    - git
   become_user: "nils"
   when: not vundle_present.stat.exists
-  community.general.make:
-    chdir: "/home/nils/git/github/ahpnils/dotfiles"
-    target: vim-deps
+  ansible.builtin.git:
+    repo: "https://github.com/VundleVim/Vundle.vim.git"
+    dest: "/home/nils/git/github/others/Vundle.vim/"
+    version: "{{ ws_vundle_commit }}"
+    clone: true
+    update: true
+    umask: "0022"
+    force: true
 
-- name: "Download Firefox Developer Edition"
-  tags:
-    - software
+- name: "Symlinks for dotfiles"
   become_user: "nils"
-  ansible.builtin.get_url:
-    url: "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
-    dest: "/home/nils/tmp/firefox.tar.bz2"
-    mode: "0600"
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "nils"
+    group: "nils"
+    state: link
+  loop: "{{ ws_dotfiles_symlinks }}"
+
+- name: "Vundle plugin installation"
+  tags:
+    - users
+    - git
+  become_user: "nils"
+  when: not vundle_present.stat.exists
+  ansible.builtin.shell: "vim +PluginInstall +qall"
+
+    #- name: "Download Firefox Developer Edition"
+    #  tags:
+    #    - software
+    #become_user: "nils"
+    #ansible.builtin.get_url:
+    #url: "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
+      #dest: "/home/nils/tmp/firefox.tar.bz2"
+      #mode: "0600"
 
   # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/unarchive_module.html
 - name: "Extract Firefox Developer Edition"
@@ -197,7 +216,9 @@
     - software
   become_user: "nils"
   ansible.builtin.unarchive:
-    src: "/home/nils/tmp/firefox.tar.bz2"
+    src: "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
+    remote_src: "true"
+    # src: "/home/nils/tmp/firefox.tar.bz2"
     dest: "/home/nils/bin/"
 
 - name: "Copy Firefox Developer Edition .desktop file"

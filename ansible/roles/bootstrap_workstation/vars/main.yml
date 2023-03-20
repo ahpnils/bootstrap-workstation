@@ -26,6 +26,7 @@ ws_pkg_list:
   - gh
   - tree
   - keepassxc
+  - gnome-screenshot
   - gnome-shell-extension-freon
   - gnome-shell-extension-caffeine
 
@@ -66,3 +67,4 @@ ws_directory_structure:
   - "Pictures/Wallpapers"
   - "shares"
   - "tmp"
+  - ".local/share/applications"

@@ -26,6 +26,7 @@ ws_pkg_list:
   - gh
   - tree
   - keepassxc
+  - gnome-tweaks
   - gnome-screenshot
   - gnome-shell-extension-freon
   - gnome-shell-extension-caffeine

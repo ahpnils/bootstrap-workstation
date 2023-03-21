@@ -49,9 +49,8 @@ ws_pak_list:
   - com.jgraph.drawio.desktop
   - org.signal.Signal
   - org.telegram.desktop
-  # - org.gnome.Extensions
+  - org.gnome.Extensions
   - com.obsproject.Studio
-  # - org.blender.Blender
 
 ws_favorite_apps:
   - "com.gexperts.Tilix.desktop"

@@ -202,7 +202,6 @@
   ansible.builtin.unarchive:
     src: "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
     remote_src: "true"
-    # src: "/home/nils/tmp/firefox.tar.bz2"
     dest: "/home/nils/bin/"
 
 - name: "Copy Firefox Developer Edition .desktop file"

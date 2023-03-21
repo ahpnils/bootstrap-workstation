@@ -90,7 +90,7 @@
     name: "{{ item.name }}"
     gid: "{{ item.uid }}"
     state: present
-  with_items: "{{ ws_users }}"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Create basic users"
   tags:
@@ -105,18 +105,19 @@
     home: "/home/{{ item.name }}"
     comment: "{{ item.comment }}"
     create_home: true
-  with_items: "{{ ws_users }}"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Copy sudo configuration"
   tags:
     - users
     - sudo
   ansible.builtin.copy:
-    src: "files/sudoers_d_nils"
-    dest: "/etc/sudoers.d/nils"
+    src: "files/sudoers_d_{{ item.name }}"
+    dest: "/etc/sudoers.d/{{ item.name }}"
     owner: "root"
     group: "root"
     mode: "0644"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Create users' directory structure"
   tags:
@@ -131,193 +132,190 @@
     recurse: true
   loop: "{{ ws_users | product(ws_directory_structure) | list }}"
 
-- name: "Check if dotfiles are already present"
-  tags:
-    - users
-    - git
-  ansible.builtin.stat:
-    path: /home/nils/git/github/ahpnils/dotfiles
-  register: dotfiles_present
-
 - name: "Clone dotfiles git repository"
   tags:
     - users
     - git
-  become_user: "nils"
-  when: not dotfiles_present.stat.exists
+  become_user: "{{ item.name }}"
   ansible.builtin.git:
     repo: "https://github.com/ahpnils/dotfiles.git"
-    dest: "/home/nils/git/github/ahpnils/dotfiles/"
+    dest: "/home/{{ item.name }}/git/github/ahpnils/dotfiles/"
     version: "{{ ws_dotfiles_commit }}"
     clone: true
     update: true
     umask: "0022"
     force: true
-
-- name: "Check if Vundle plugins are already installed"
-  tags:
-    - users
-    - git
-  ansible.builtin.stat:
-    path: /home/nils/git/github/others/Vundle.vim
-  register: vundle_present
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Clone Vundle git repository"
   tags:
     - users
     - git
-  become_user: "nils"
-  when: not vundle_present.stat.exists
+  become_user: "{{ item.name }}"
   ansible.builtin.git:
     repo: "https://github.com/VundleVim/Vundle.vim.git"
-    dest: "/home/nils/git/github/others/Vundle.vim/"
+    dest: "/home/{{ item.name }}/git/github/others/Vundle.vim/"
     version: "{{ ws_vundle_commit }}"
     clone: true
     update: true
     umask: "0022"
     force: true
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Symlinks for dotfiles"
-  become_user: "nils"
+  become_user: "{{ item.0.name }}"
   ansible.builtin.file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "nils"
-    group: "nils"
+    src: "{{ item.1.src }}"
+    dest: "{{ item.1.dest }}"
+    owner: "{{ item.0.name }}"
+    group: "{{ item.0.name }}"
     state: link
-  loop: "{{ ws_dotfiles_symlinks }}"
+  loop: "{{ ws_users | product(ws_dotfiles_symlinks) | list }}"
 
 - name: "Vundle plugin installation"
   tags:
     - users
     - git
-  become_user: "nils"
-  when: not vundle_present.stat.exists
+  become_user: "{{ item.name }}"
   ansible.builtin.command: "vim +PluginInstall +qall"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Extract Firefox Developer Edition"
   tags:
     - software
-  become_user: "nils"
+  become_user: "{{ item.name }}"
   ansible.builtin.unarchive:
     src: "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
     remote_src: "true"
-    dest: "/home/nils/bin/"
+    dest: "/home/{{ item.name }}/bin/"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Copy Firefox Developer Edition .desktop file"
   tags:
     - software
   ansible.builtin.copy:
     src: "files/firefox-dev.desktop"
-    dest: "/home/nils/.local/share/applications/firefox-dev.desktop"
-    owner: "nils"
-    group: "nils"
+    dest: "/home/{{ item.name }}/.local/share/applications/firefox-dev.desktop"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
     mode: "0644"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Copy wallpaper file"
   tags:
     - gnome
   ansible.builtin.copy:
     src: "files/wallpaper_sheep.png"
-    dest: "/home/nils/Pictures/Wallpapers/wallpaper_sheep.png"
-    owner: "nils"
-    group: "nils"
+    dest: "/home/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
     mode: "0644"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Copy avatar file"
   tags:
     - gnome
   ansible.builtin.copy:
     src: "files/avatar_sheep.png"
-    dest: "/home/nils/Pictures/Avatars/avatar_sheep.png"
-    owner: "nils"
-    group: "nils"
+    dest: "/home/{{ item.name }}/Pictures/Avatars/avatar_sheep.png"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
     mode: "0644"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Copy Avatar Icon"
   tags:
     - gnome
   ansible.builtin.copy:
     src: "files/avatar_sheep.png"
-    dest: "/var/lib/AccountsService/icons/nils"
+    dest: "/var/lib/AccountsService/icons/{{ item.name }}"
     owner: "root"
     group: "root"
     mode: "0644"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Set up Avatar Icon"
   tags:
     - gnome
   ansible.builtin.copy:
-    src: "files/AccountsService_nils.txt"
-    dest: "/var/lib/AccountsService/users/nils"
+    src: "files/AccountsService_{{ item.name }}.txt"
+    dest: "/var/lib/AccountsService/users/{{ item.name }}"
     owner: "root"
     group: "root"
     mode: "0644"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Enable GNOME dark theme"
   tags:
     - gnome
-  become_user: "nils"
+  become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/interface/gtk-theme"
     value: "'Adwaita-dark'"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Enable GNOME dark mode"
   tags:
     - gnome
-  become_user: "nils"
+  become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/interface/color-scheme"
     value: "'prefer-dark'"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Set GNOME wallpaper"
   tags:
     - gnome
-  become_user: "nils"
+  become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/background/picture-uri"
-    value: "'file:///home/nils/Pictures/Wallpapers/wallpaper_sheep.png'"
+    value: "'file:///home/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Set GNOME wallpaper in dark mode"
   tags:
     - gnome
-  become_user: "nils"
+  become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/background/picture-uri-dark"
-    value: "'file:///home/nils/Pictures/Wallpapers/wallpaper_sheep.png'"
+    value: "'file:///home/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Set lock screen background"
   tags:
     - gnome
-  become_user: "nils"
+  become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/screensaver/picture-uri"
-    value: "'file:///home/nils/Pictures/Wallpapers/wallpaper_sheep.png'"
+    value: "'file:///home/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
   # gnome-screenshot must be installed for this to work
 - name: "Set screenshots location"
   tags:
     - gnome
-  become_user: "nils"
+  become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/gnome-screenshot/auto-save-directory"
-    value: "'/home/nils/Pictures/Screenshots'"
+    value: "'/home/{{ item.name }}/Pictures/Screenshots'"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Set favorite applications"
   tags:
     - gnome
-  become_user: "nils"
+  become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/shell/favorite-apps"
     value: "{{ ws_favorite_apps }}"
+  loop: "{{ ws_users|flatten(levels=1) }}"
 
 - name: "Configure GNOME Night Light"
   tags:
     - gnome
-  become_user: "nils"
+  become_user: "{{ item.0.name }}"
   community.general.dconf:
-    key: "/org/gnome/settings-daemon/plugins/color/{{ item.name }}"
-    value: "{{ item.value }}"
-  loop: "{{ ws_nightlight_settings }}"
+    key: "/org/gnome/settings-daemon/plugins/color/{{ item.1.name }}"
+    value: "{{ item.1.value }}"
+  loop: "{{ ws_users | product(ws_nightlight_settings) | list }}"
 
 # vim:ts=2:sw=2

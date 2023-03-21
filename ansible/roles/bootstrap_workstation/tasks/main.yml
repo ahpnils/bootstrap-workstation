@@ -195,16 +195,6 @@
   when: not vundle_present.stat.exists
   ansible.builtin.shell: "vim +PluginInstall +qall"
 
-    #- name: "Download Firefox Developer Edition"
-    #  tags:
-    #    - software
-    #become_user: "nils"
-    #ansible.builtin.get_url:
-    #url: "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
-      #dest: "/home/nils/tmp/firefox.tar.bz2"
-      #mode: "0600"
-
-  # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/unarchive_module.html
 - name: "Extract Firefox Developer Edition"
   tags:
     - software

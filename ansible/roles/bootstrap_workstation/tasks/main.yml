@@ -180,8 +180,8 @@
 - name: "Symlinks for dotfiles"
   become_user: "nils"
   ansible.builtin.file:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     owner: "nils"
     group: "nils"
     state: link
@@ -193,7 +193,7 @@
     - git
   become_user: "nils"
   when: not vundle_present.stat.exists
-  ansible.builtin.shell: "vim +PluginInstall +qall"
+  ansible.builtin.command: "vim +PluginInstall +qall"
 
 - name: "Extract Firefox Developer Edition"
   tags:
@@ -316,7 +316,7 @@
     - gnome
   become_user: "nils"
   community.general.dconf:
-    key: "/org/gnome/settings-daemon/plugins/color/{{ item.name }}"
+    key: "/org/gnome/settings-daemon/plugins/color/{{ item.name }}"
     value: "{{ item.value }}"
   loop: "{{ ws_nightlight_settings }}"
 

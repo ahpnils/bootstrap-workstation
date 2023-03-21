@@ -98,7 +98,7 @@
   ansible.builtin.user:
     name: "{{ item.name }}"
     group: "{{ item.name }}"
-    groups: wheel
+    groups: wheel,libvirt
     uid: "{{ item.uid }}"
     shell: "{{ bash_path.stdout }}"
     state: present

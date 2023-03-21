@@ -122,3 +122,17 @@ ws_dotfiles_symlinks:
   - name: "vundle"
     src: "~/git/github/others/Vundle.vim"
     dest: "~/.vim/bundle/Vundle.vim"
+
+ws_nightlight_settings:
+  - name: "night-light-enabled"
+    value: "'true'"
+  - name: "night-light-last-coordinates"
+    value: "'(91.0, 181.0)'"
+  - name: "night-light-schedule-automatic"
+    value: "'false'"
+  - name: "night-light-schedule-from"
+    value: "'20.0'"
+  - name: "night-light-schedule-to"
+    value: "'6.0'"
+  - name: "night-light-temperature"
+    value: "'uint32 1700'"

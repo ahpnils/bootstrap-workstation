@@ -291,4 +291,13 @@
     key: "/org/gnome/shell/favorite-apps"
     value: "{{ ws_favorite_apps }}"
 
+- name: "Configure GNOME Night Light"
+  tags:
+    - gnome
+  become_user: "nils"
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/color/{{ item.name }}"
+    value: "{{ item.value }}"
+  loop: "{{ ws_nightlight_settings }}"
+
 # vim:ts=2:sw=2

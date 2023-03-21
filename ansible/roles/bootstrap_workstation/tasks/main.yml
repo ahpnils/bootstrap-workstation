@@ -40,12 +40,6 @@
     gpgcheck: true
     enabled: true
 
-- name: "Add glow Copr repository"
-  community.general.copr:
-    host: "copr.fedorainfracloud.org"
-    state: absent
-    name: "keefle/glow"
-
 - name: "Install some basic packages"
   tags:
     - packages

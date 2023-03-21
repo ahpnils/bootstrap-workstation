@@ -234,6 +234,26 @@
     group: "nils"
     mode: "0644"
 
+- name: "Copy Avatar Icon"
+  tags:
+    - gnome
+  ansible.builtin.copy:
+    src: "files/avatar_sheep.png"
+    dest: "/var/lib/AccountsService/icons/nils"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: "Set up Avatar Icon"
+  tags:
+    - gnome
+  ansible.builtin.copy:
+    src: "files/AccountsService_nils.txt"
+    dest: "/var/lib/AccountsService/users/nils"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
 - name: "Enable GNOME dark theme"
   tags:
     - gnome

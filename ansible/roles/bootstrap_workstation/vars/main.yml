@@ -5,42 +5,39 @@ ws_dep_pkg_list:
   - python3-psutil
 
 ws_pkg_list:
-  - ccze
-  - tmux
-  - rsync
-  - make
   - bash-completion
-  - vim-enhanced
-  - most
-  - htop
-  - git-delta
   - bat
-  - ShellCheck
-  - exa
   - btop
-  - tree
+  - ccze
+  - exa
+  - git-delta
+  - htop
   - iftop
-  - gnome-tweaks
-  - tilix
-  - lm_sensors
-  - gh
-  - tree
   - keepassxc
+  - lm_sensors
+  - make
+  - most
+  - gh
   - gnome-tweaks
   - gnome-screenshot
   - gnome-shell-extension-freon
   - gnome-shell-extension-caffeine
-  - virt-manager
+  - rsync
+  - ShellCheck
   - thunderbird
+  - tilix
+  - tmux
+  - tree
+  - vim-enhanced
+  - virt-manager
 
 ws_fusion_pkg_list:
-  - vlc
   - gstreamer1-plugins-bad-freeworld
   - gstreamer1-plugins-ugly
+  - vlc
 
 ws_misc_pkg_list:
   - google-cloud-cli
-  - glow
   # - terraform
 
 ws_pak_list:

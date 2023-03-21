@@ -30,6 +30,8 @@ ws_pkg_list:
   - gnome-screenshot
   - gnome-shell-extension-freon
   - gnome-shell-extension-caffeine
+  - virt-manager
+  - thunderbird
 
 ws_fusion_pkg_list:
   - vlc
@@ -48,8 +50,25 @@ ws_pak_list:
   - org.signal.Signal
   - org.telegram.desktop
   # - org.gnome.Extensions
-  # - com.obsproject.Studio
+  - com.obsproject.Studio
   # - org.blender.Blender
+
+ws_favorite_apps:
+  - "com.gexperts.Tilix.desktop"
+  - "org.keepassxc.KeePassXC.desktop"
+  - "firefox.desktop"
+  - "firefox-dev.desktop"
+  - "mozilla-thunderbird.desktop"
+  - "com.discordapp.Discord.desktop"
+  - "org.signal.Signal.desktop"
+  - "io.github.Hexchat.desktop"
+  - "org.telegram.desktop.desktop"
+  - "virt-manager.desktop"
+  - "org.gnome.Nautilus.desktop"
+  - "org.gnome.Settings.desktop"
+  - "org.gnome.tweaks.desktop"
+  - "com.obsproject.Studio.desktop"
+  - "com.spotify.Client.desktop"
 
 ws_users:
   - name: nils

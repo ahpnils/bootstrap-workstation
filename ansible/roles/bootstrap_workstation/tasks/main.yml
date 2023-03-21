@@ -245,12 +245,36 @@
     group: "nils"
     mode: "0644"
 
+- name: "Enable GNOME dark theme"
+  tags:
+    - gnome
+  become_user: "nils"
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/gtk-theme"
+    value: "'Adwaita-dark'"
+
+- name: "Enable GNOME dark mode"
+  tags:
+    - gnome
+  become_user: "nils"
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/color-scheme"
+    value: "'prefer-dark'"
+
 - name: "Set GNOME wallpaper"
   tags:
     - gnome
   become_user: "nils"
   community.general.dconf:
     key: "/org/gnome/desktop/background/picture-uri"
+    value: "'file:///home/nils/Pictures/Wallpapers/wallpaper_sheep.png'"
+
+- name: "Set GNOME wallpaper in dark mode"
+  tags:
+    - gnome
+  become_user: "nils"
+  community.general.dconf:
+    key: "/org/gnome/desktop/background/picture-uri-dark"
     value: "'file:///home/nils/Pictures/Wallpapers/wallpaper_sheep.png'"
 
 - name: "Set lock screen background"

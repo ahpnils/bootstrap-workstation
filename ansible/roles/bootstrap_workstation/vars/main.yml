@@ -71,6 +71,9 @@ ws_users:
   - name: nils
     uid: 5001
     comment: "Nils Ratusznik"
+    calendar_settings:
+      - name: "show-weekdate"
+        value: "true"
 
 ws_directory_structure:
   - "bin"

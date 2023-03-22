@@ -245,6 +245,18 @@
     mode: "0644"
   loop: "{{ ws_users | flatten(levels=1) }}"
 
+- name: "GNOME calendar settings"
+  tags:
+    - gnome
+    - calendar
+  become_user: "{{ item.0.name }}"
+  community.general.dconf:
+    key: "/org/gnome/desktop/calendar/{{ item.1.name }}"
+    value: "{{ item.1.value }}"
+  loop: "{{ ws_users | subelements('calendar_settings') }}"
+  loop_control:
+    label: "{{ item.0.name }} - {{ item.1.name }} "
+
 - name: "Enable GNOME dark theme"
   tags:
     - gnome

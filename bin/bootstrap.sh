@@ -54,7 +54,7 @@ dnf --quiet --assumeyes clean all
 set +e
 is_ansible_installed="$(rpm -q ansible-collection-ansible-posix)"
 if [ "${is_ansible_installed}" != "0" ]; then
-	dnf --quiet --assumeyes install git-base \
+	dnf --quiet --assumeyes install git-core \
     ansible-core \
 		ansible-collection-community-general \
 		ansible-collection-ansible-posix

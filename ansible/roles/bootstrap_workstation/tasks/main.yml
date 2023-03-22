@@ -86,7 +86,7 @@
     name: "{{ ws_pak_list }}"
     state: present
 
-- name: Register Bash path
+- name: "Register Bash path"
   tags:
     - users
     - bash

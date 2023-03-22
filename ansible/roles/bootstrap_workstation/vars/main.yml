@@ -70,10 +70,24 @@ ws_favorite_apps:
 ws_users:
   - name: nils
     uid: 5001
+    groups: "wheel,libvirt,dialout"
     comment: "Nils Ratusznik"
     calendar_settings:
       - name: "show-weekdate"
         value: "true"
+    nightlight_settings:
+      - name: "night-light-enabled"
+        value: "'true'"
+      - name: "night-light-last-coordinates"
+        value: "'(91.0, 181.0)'"
+      - name: "night-light-schedule-automatic"
+        value: "'false'"
+      - name: "night-light-schedule-from"
+        value: "'20.0'"
+      - name: "night-light-schedule-to"
+        value: "'6.0'"
+      - name: "night-light-temperature"
+        value: "'uint32 1700'"
 
 ws_directory_structure:
   - "bin"
@@ -123,16 +137,4 @@ ws_dotfiles_symlinks:
     src: "~/git/github/others/Vundle.vim"
     dest: "~/.vim/bundle/Vundle.vim"
 
-ws_nightlight_settings:
-  - name: "night-light-enabled"
-    value: "'true'"
-  - name: "night-light-last-coordinates"
-    value: "'(91.0, 181.0)'"
-  - name: "night-light-schedule-automatic"
-    value: "'false'"
-  - name: "night-light-schedule-from"
-    value: "'20.0'"
-  - name: "night-light-schedule-to"
-    value: "'6.0'"
-  - name: "night-light-temperature"
-    value: "'uint32 1700'"
+# vim:ts=2:sw=2

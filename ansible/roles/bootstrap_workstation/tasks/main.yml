@@ -98,7 +98,7 @@
   ansible.builtin.user:
     name: "{{ item.name }}"
     group: "{{ item.name }}"
-    groups: wheel,libvirt
+    groups: "{{ item.groups }}"
     uid: "{{ item.uid }}"
     shell: "{{ bash_path.stdout }}"
     state: present
@@ -324,10 +324,13 @@
 - name: "Configure GNOME Night Light"
   tags:
     - gnome
+    - nightlight
   become_user: "{{ item.0.name }}"
   community.general.dconf:
     key: "/org/gnome/settings-daemon/plugins/color/{{ item.1.name }}"
     value: "{{ item.1.value }}"
-  loop: "{{ ws_users | product(ws_nightlight_settings) | list }}"
+  loop: "{{ ws_users | subelements('nightlight_settings') }}"
+  loop_control:
+    label: "{{ item.0.name }} - {{ item.1.name }} "
 
 # vim:ts=2:sw=2

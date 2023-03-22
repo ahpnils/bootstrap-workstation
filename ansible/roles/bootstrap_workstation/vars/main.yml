@@ -67,6 +67,8 @@ ws_favorite_apps:
   - "com.obsproject.Studio.desktop"
   - "com.spotify.Client.desktop"
 
+ws_home_dir: "/home"
+
 ws_users:
   - name: nils
     uid: 5001

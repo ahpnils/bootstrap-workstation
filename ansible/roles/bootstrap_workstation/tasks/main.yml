@@ -102,7 +102,7 @@
     uid: "{{ item.uid }}"
     shell: "{{ bash_path.stdout }}"
     state: present
-    home: "/home/{{ item.name }}"
+    home: "{{ ws_home_dir }}/{{ item.name }}"
     comment: "{{ item.comment }}"
     create_home: true
   loop: "{{ ws_users | flatten(levels=1) }}"
@@ -123,7 +123,7 @@
   tags:
     - users
   ansible.builtin.file:
-    path: "/home/{{ item.0.name }}/{{ item.1 }}"
+    path: "{{ ws_home_dir }}/{{ item.0.name }}/{{ item.1 }}"
     state: directory
     mode: 0700
     owner: "{{ item.0.name }}"
@@ -139,7 +139,7 @@
   become_user: "{{ item.name }}"
   ansible.builtin.git:
     repo: "https://github.com/ahpnils/dotfiles.git"
-    dest: "/home/{{ item.name }}/git/github/ahpnils/dotfiles/"
+    dest: "{{ ws_home_dir }}/{{ item.name }}/git/github/ahpnils/dotfiles/"
     version: "{{ ws_dotfiles_commit }}"
     clone: true
     update: true
@@ -154,7 +154,7 @@
   become_user: "{{ item.name }}"
   ansible.builtin.git:
     repo: "https://github.com/VundleVim/Vundle.vim.git"
-    dest: "/home/{{ item.name }}/git/github/others/Vundle.vim/"
+    dest: "{{ ws_home_dir }}/{{ item.name }}/git/github/others/Vundle.vim/"
     version: "{{ ws_vundle_commit }}"
     clone: true
     update: true
@@ -187,7 +187,7 @@
   ansible.builtin.unarchive:
     src: "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
     remote_src: "true"
-    dest: "/home/{{ item.name }}/bin/"
+    dest: "{{ ws_home_dir }}/{{ item.name }}/bin/"
   loop: "{{ ws_users | flatten(levels=1) }}"
 
 - name: "Copy Firefox Developer Edition .desktop file"
@@ -195,7 +195,7 @@
     - software
   ansible.builtin.copy:
     src: "files/firefox-dev.desktop"
-    dest: "/home/{{ item.name }}/.local/share/applications/firefox-dev.desktop"
+    dest: "{{ ws_home_dir }}/{{ item.name }}/.local/share/applications/firefox-dev.desktop"
     owner: "{{ item.name }}"
     group: "{{ item.name }}"
     mode: "0644"
@@ -206,7 +206,7 @@
     - gnome
   ansible.builtin.copy:
     src: "files/users/{{ item.name }}/wallpaper.png"
-    dest: "/home/{{ item.name }}/Pictures/Wallpapers/01_wallpaper.png"
+    dest: "{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/01_wallpaper.png"
     owner: "{{ item.name }}"
     group: "{{ item.name }}"
     mode: "0644"
@@ -217,7 +217,7 @@
     - gnome
   ansible.builtin.copy:
     src: "files/users/{{ item.name }}/avatar.png"
-    dest: "/home/{{ item.name }}/Pictures/Avatars/01_avatar.png"
+    dest: "{{ ws_home_dir }}/{{ item.name }}/Pictures/Avatars/01_avatar.png"
     owner: "{{ item.name }}"
     group: "{{ item.name }}"
     mode: "0644"
@@ -281,7 +281,7 @@
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/background/picture-uri"
-    value: "'file:///home/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
+    value: "'file://{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
   loop: "{{ ws_users | flatten(levels=1) }}"
 
 - name: "Set GNOME wallpaper in dark mode"
@@ -290,7 +290,7 @@
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/background/picture-uri-dark"
-    value: "'file:///home/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
+    value: "'file://{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
   loop: "{{ ws_users | flatten(levels=1) }}"
 
 - name: "Set lock screen background"
@@ -299,7 +299,7 @@
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/screensaver/picture-uri"
-    value: "'file:///home/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
+    value: "'file://{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
   loop: "{{ ws_users | flatten(levels=1) }}"
 
   # gnome-screenshot must be installed for this to work
@@ -309,7 +309,7 @@
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/gnome-screenshot/auto-save-directory"
-    value: "'/home/{{ item.name }}/Pictures/Screenshots'"
+    value: "'{{ ws_home_dir }}/{{ item.name }}/Pictures/Screenshots'"
   loop: "{{ ws_users | flatten(levels=1) }}"
 
 - name: "Set favorite applications"

@@ -407,4 +407,17 @@
   loop_control:
     label: "{{ item.0.name }} - {{ item.1.name }} "
 
+- name: "Set up Tilix as a login shell"
+  tags:
+    - gnome
+    - tilix
+  become_user: "{{ item.name }}"
+  community.general.dconf:
+    # this uuid seems to be the default profile
+    key: "/com/gexperts/Tilix/profiles/2b7c4080-0ddd-46c5-8f23-563fd3ba789d/login-shell"
+    value: "true"
+  loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
+
 # vim:ts=2:sw=2

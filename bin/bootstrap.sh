@@ -15,6 +15,7 @@ set -o pipefail
 current_uid=$(id -u)
 os_release_file="/etc/os-release"
 oldest_os_version="37"
+repo_path=""
 
 echo "Sanity checks..."
 
@@ -53,14 +54,22 @@ dnf --quiet --assumeyes clean all
 set +e
 is_ansible_installed="$(rpm -q ansible-collection-ansible-posix)"
 if [ "${is_ansible_installed}" != "0" ]; then
-	dnf --quiet --assumeyes install ansible-core \
+	dnf --quiet --assumeyes install git-base \
+    ansible-core \
 		ansible-collection-community-general \
 		ansible-collection-ansible-posix
 fi
 set -o errexit 
 echo "Done !"
 
+echo "Pulling the repository..."
+repo_path="$(mktemp -d)"
+cd "${repo_path}"
+git clone https://github.com/ahpnils/bootstrap-workstation.git
+
+echo "Done !"
 echo "Executing the playbook..."
+cd "${repo_path}/bootstrap-workstation"
 ANSIBLE_LOCALHOST_WARNING=False \
 	ansible-playbook ./ansible/playbooks/bootstrap_workstation.yml
 echo "Done !"

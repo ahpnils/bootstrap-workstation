@@ -4,13 +4,15 @@
 - name: "Install mandatory packages for role execution"
   tags:
     - packages
+    - mandatory_packages
   ansible.builtin.package:
     name: "{{ ws_dep_pkg_list }}"
     state: present
 
 - name: "Install RPMFusion repositories packages"
   tags:
-    - packages
+    - rpmfusion
+    - repositories
   ansible.builtin.dnf:
     name:
       - "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
@@ -19,6 +21,9 @@
     state: present
 
 - name: "Add hashicorp repo"
+  tags:
+    - hashicorp
+    - repositories
   ansible.builtin.yum_repository:
     name: "hashicorp"
     description: "Hashicorp Stable - $basearch"
@@ -29,6 +34,9 @@
     enabled: true
 
 - name: "Add google-cloud-cli repo"
+  tags:
+    - google_cloud
+    - repositories
   ansible.builtin.yum_repository:
     name: "google-cloud-cli"
     description: "Google Cloud CLI"
@@ -50,6 +58,7 @@
 - name: "Install packages from RPMFusion"
   tags:
     - packages
+    - rpmfusion
   ansible.builtin.package:
     name: "{{ ws_fusion_pkg_list }}"
     state: present
@@ -62,14 +71,17 @@
     state: present
 
 - name: "Add the flathub remote from the system installation"
+  tags:
+    - flatpak
+    - flatpak_repo
   community.general.flatpak_remote:
     name: flathub
     state: present
 
 - name: "Install more software with flatpack"
   tags:
-    - packages
     - flatpak
+    - flatpak_packages
   community.general.flatpak:
     name: "{{ ws_pak_list }}"
     state: present
@@ -77,6 +89,7 @@
 - name: Register Bash path
   tags:
     - users
+    - bash
   ansible.builtin.shell: PATH=/bin:/sbin:$PATH command -v bash
   register: bash_path
   ignore_errors: true
@@ -86,6 +99,7 @@
 - name: "Create basic users groups"
   tags:
     - users
+    - groups
   ansible.builtin.group:
     name: "{{ item.name }}"
     gid: "{{ item.uid }}"
@@ -128,6 +142,7 @@
 - name: "Create users' directory structure"
   tags:
     - users
+    - dirs
   ansible.builtin.file:
     path: "{{ ws_home_dir }}/{{ item.0.name }}/{{ item.1 }}"
     state: directory
@@ -175,6 +190,9 @@
     label: "{{ item.name }}"
 
 - name: "Symlinks for dotfiles"
+  tags:
+    - users
+    - dotfiles
   become_user: "{{ item.0.name }}"
   ansible.builtin.file:
     src: "{{ item.1.src }}"
@@ -200,6 +218,7 @@
 - name: "Extract Firefox Developer Edition"
   tags:
     - software
+    - firefox
   become_user: "{{ item.name }}"
   ansible.builtin.unarchive:
     src: "https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US"
@@ -212,6 +231,7 @@
 - name: "Copy Firefox Developer Edition .desktop file"
   tags:
     - software
+    - firefox
   ansible.builtin.copy:
     src: "files/firefox-dev.desktop"
     dest: "{{ ws_home_dir }}/{{ item.name }}/.local/share/applications/firefox-dev.desktop"
@@ -225,6 +245,7 @@
 - name: "Copy wallpaper file"
   tags:
     - gnome
+    - wallpaper
   ansible.builtin.copy:
     src: "files/users/{{ item.name }}/wallpaper.png"
     dest: "{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/01_wallpaper.png"
@@ -238,6 +259,7 @@
 - name: "Copy avatar file"
   tags:
     - gnome
+    - avatar
   ansible.builtin.copy:
     src: "files/users/{{ item.name }}/avatar.png"
     dest: "{{ ws_home_dir }}/{{ item.name }}/Pictures/Avatars/01_avatar.png"
@@ -251,6 +273,7 @@
 - name: "Copy Avatar Icon"
   tags:
     - gnome
+    - avatar
   ansible.builtin.copy:
     src: "files/users/{{ item.name }}/avatar.png"
     dest: "/var/lib/AccountsService/icons/{{ item.name }}"
@@ -264,6 +287,7 @@
 - name: "Set up Avatar Icon"
   tags:
     - gnome
+    - avatar
   ansible.builtin.template:
     src: "templates/AccountsService.j2"
     dest: "/var/lib/AccountsService/users/{{ item.name }}"
@@ -289,6 +313,7 @@
 - name: "Enable GNOME dark theme"
   tags:
     - gnome
+    - theme
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/interface/gtk-theme"
@@ -300,6 +325,7 @@
 - name: "Enable GNOME dark mode"
   tags:
     - gnome
+    - theme
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/interface/color-scheme"
@@ -311,6 +337,7 @@
 - name: "Set GNOME wallpaper"
   tags:
     - gnome
+    - wallpaper
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/background/picture-uri"
@@ -322,6 +349,7 @@
 - name: "Set GNOME wallpaper in dark mode"
   tags:
     - gnome
+    - wallpaper
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/background/picture-uri-dark"
@@ -333,6 +361,7 @@
 - name: "Set lock screen background"
   tags:
     - gnome
+    - wallpaper
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/screensaver/picture-uri"
@@ -345,6 +374,7 @@
 - name: "Set screenshots location"
   tags:
     - gnome
+    - screenshot
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/gnome-screenshot/auto-save-directory"

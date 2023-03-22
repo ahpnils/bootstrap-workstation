@@ -195,6 +195,7 @@
   loop: "{{ ws_users | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.name }}"
+  changed_when: false
 
 - name: "Extract Firefox Developer Edition"
   tags:

@@ -112,7 +112,7 @@
     - users
     - sudo
   ansible.builtin.copy:
-    src: "files/sudoers_d_{{ item.name }}"
+    src: "files/users/{{ item.name }}/sudoers.txt"
     dest: "/etc/sudoers.d/{{ item.name }}"
     owner: "root"
     group: "root"
@@ -205,8 +205,8 @@
   tags:
     - gnome
   ansible.builtin.copy:
-    src: "files/wallpaper_sheep.png"
-    dest: "/home/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png"
+    src: "files/users/{{ item.name }}/wallpaper.png"
+    dest: "/home/{{ item.name }}/Pictures/Wallpapers/01_wallpaper.png"
     owner: "{{ item.name }}"
     group: "{{ item.name }}"
     mode: "0644"
@@ -216,8 +216,8 @@
   tags:
     - gnome
   ansible.builtin.copy:
-    src: "files/avatar_sheep.png"
-    dest: "/home/{{ item.name }}/Pictures/Avatars/avatar_sheep.png"
+    src: "files/users/{{ item.name }}/avatar.png"
+    dest: "/home/{{ item.name }}/Pictures/Avatars/01_avatar.png"
     owner: "{{ item.name }}"
     group: "{{ item.name }}"
     mode: "0644"
@@ -227,7 +227,7 @@
   tags:
     - gnome
   ansible.builtin.copy:
-    src: "files/avatar_sheep.png"
+    src: "files/users/{{ item.name }}/avatar.png"
     dest: "/var/lib/AccountsService/icons/{{ item.name }}"
     owner: "root"
     group: "root"
@@ -237,8 +237,8 @@
 - name: "Set up Avatar Icon"
   tags:
     - gnome
-  ansible.builtin.copy:
-    src: "files/AccountsService_{{ item.name }}.txt"
+  ansible.builtin.template:
+    src: "templates/AccountsService.j2"
     dest: "/var/lib/AccountsService/users/{{ item.name }}"
     owner: "root"
     group: "root"

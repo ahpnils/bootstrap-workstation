@@ -242,7 +242,7 @@
   loop_control:
     label: "{{ item.name }}"
 
-- name: "Copy wallpaper file"
+- name: "Copy GNOME wallpaper file"
   tags:
     - gnome
     - wallpaper
@@ -256,7 +256,7 @@
   loop_control:
     label: "{{ item.name }}"
 
-- name: "Copy avatar file"
+- name: "Copy GNOME avatar file"
   tags:
     - gnome
     - avatar
@@ -270,7 +270,7 @@
   loop_control:
     label: "{{ item.name }}"
 
-- name: "Copy Avatar Icon"
+- name: "Copy GNOME Avatar Icon"
   tags:
     - gnome
     - avatar
@@ -284,7 +284,7 @@
   loop_control:
     label: "{{ item.name }}"
 
-- name: "Set up Avatar Icon"
+- name: "Set up GNOME Avatar Icon"
   tags:
     - gnome
     - avatar
@@ -358,7 +358,7 @@
   loop_control:
     label: "{{ item.name }}"
 
-- name: "Set lock screen background"
+- name: "Set GNOME lock screen background"
   tags:
     - gnome
     - wallpaper
@@ -371,7 +371,7 @@
     label: "{{ item.name }}"
 
   # gnome-screenshot must be installed for this to work
-- name: "Set screenshots location"
+- name: "Set GNOME screenshots location"
   tags:
     - gnome
     - screenshot
@@ -383,7 +383,7 @@
   loop_control:
     label: "{{ item.name }}"
 
-- name: "Set favorite applications"
+- name: "Set GNOME favorite applications"
   tags:
     - gnome
     - favorite_apps

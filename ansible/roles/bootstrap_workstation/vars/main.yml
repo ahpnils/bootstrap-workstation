@@ -50,22 +50,6 @@ ws_pak_list:
   - org.gnome.Extensions
   - com.obsproject.Studio
 
-ws_favorite_apps:
-  - "com.gexperts.Tilix.desktop"
-  - "org.keepassxc.KeePassXC.desktop"
-  - "firefox.desktop"
-  - "firefox-dev.desktop"
-  - "mozilla-thunderbird.desktop"
-  - "com.discordapp.Discord.desktop"
-  - "org.signal.Signal.desktop"
-  - "io.github.Hexchat.desktop"
-  - "org.telegram.desktop.desktop"
-  - "virt-manager.desktop"
-  - "org.gnome.Nautilus.desktop"
-  - "org.gnome.Settings.desktop"
-  - "org.gnome.tweaks.desktop"
-  - "com.obsproject.Studio.desktop"
-  - "com.spotify.Client.desktop"
 
 ws_home_dir: "/home"
 
@@ -90,6 +74,22 @@ ws_users:
         value: "'6.0'"
       - name: "night-light-temperature"
         value: "'uint32 1700'"
+    favorite_apps:
+      - "com.gexperts.Tilix.desktop"
+      - "org.keepassxc.KeePassXC.desktop"
+      - "firefox.desktop"
+      - "firefox-dev.desktop"
+      - "mozilla-thunderbird.desktop"
+      - "com.discordapp.Discord.desktop"
+      - "org.signal.Signal.desktop"
+      - "io.github.Hexchat.desktop"
+      - "org.telegram.desktop.desktop"
+      - "virt-manager.desktop"
+      - "org.gnome.Nautilus.desktop"
+      - "org.gnome.Settings.desktop"
+      - "org.gnome.tweaks.desktop"
+      - "com.obsproject.Studio.desktop"
+      - "com.spotify.Client.desktop"
 
 ws_directory_structure:
   - "bin"

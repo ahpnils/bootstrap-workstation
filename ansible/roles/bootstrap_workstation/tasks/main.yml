@@ -355,13 +355,14 @@
 - name: "Set favorite applications"
   tags:
     - gnome
+    - favorite_apps
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/shell/favorite-apps"
-    value: "{{ ws_favorite_apps }}"
+    value: "{{ item.favorite_apps }}"
   loop: "{{ ws_users | flatten(levels=1) }}"
   loop_control:
-    label: "{{ item.name }}"
+    label: "{{ item.name }} - {{ item.favorite_apps }}"
 
 - name: "Configure GNOME Night Light"
   tags:

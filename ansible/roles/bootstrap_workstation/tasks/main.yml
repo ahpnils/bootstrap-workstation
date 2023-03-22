@@ -91,6 +91,8 @@
     gid: "{{ item.uid }}"
     state: present
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Create basic users"
   tags:
@@ -106,6 +108,8 @@
     comment: "{{ item.comment }}"
     create_home: true
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Copy sudo configuration"
   tags:
@@ -118,6 +122,8 @@
     group: "root"
     mode: "0644"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Create users' directory structure"
   tags:
@@ -131,6 +137,8 @@
     force: true
     recurse: true
   loop: "{{ ws_users | product(ws_directory_structure) | list }}"
+  loop_control:
+    label: "{{ item.0.name }} {{ item.1 }}"
 
 - name: "Clone dotfiles git repository"
   tags:
@@ -146,6 +154,8 @@
     umask: "0022"
     force: true
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Clone Vundle git repository"
   tags:
@@ -161,6 +171,8 @@
     umask: "0022"
     force: true
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Symlinks for dotfiles"
   become_user: "{{ item.0.name }}"
@@ -171,6 +183,8 @@
     group: "{{ item.0.name }}"
     state: link
   loop: "{{ ws_users | product(ws_dotfiles_symlinks) | list }}"
+  loop_control:
+    label: "{{ item.0.name }} - {{ item.1.src }}"
 
 - name: "Vundle plugin installation"
   tags:
@@ -179,6 +193,8 @@
   become_user: "{{ item.name }}"
   ansible.builtin.command: "vim +PluginInstall +qall"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Extract Firefox Developer Edition"
   tags:
@@ -189,6 +205,8 @@
     remote_src: "true"
     dest: "{{ ws_home_dir }}/{{ item.name }}/bin/"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Copy Firefox Developer Edition .desktop file"
   tags:
@@ -200,6 +218,8 @@
     group: "{{ item.name }}"
     mode: "0644"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Copy wallpaper file"
   tags:
@@ -211,6 +231,8 @@
     group: "{{ item.name }}"
     mode: "0644"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Copy avatar file"
   tags:
@@ -222,6 +244,8 @@
     group: "{{ item.name }}"
     mode: "0644"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Copy Avatar Icon"
   tags:
@@ -233,6 +257,8 @@
     group: "root"
     mode: "0644"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Set up Avatar Icon"
   tags:
@@ -244,6 +270,8 @@
     group: "root"
     mode: "0644"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "GNOME calendar settings"
   tags:
@@ -265,6 +293,8 @@
     key: "/org/gnome/desktop/interface/gtk-theme"
     value: "'Adwaita-dark'"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Enable GNOME dark mode"
   tags:
@@ -274,6 +304,8 @@
     key: "/org/gnome/desktop/interface/color-scheme"
     value: "'prefer-dark'"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Set GNOME wallpaper"
   tags:
@@ -283,6 +315,8 @@
     key: "/org/gnome/desktop/background/picture-uri"
     value: "'file://{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Set GNOME wallpaper in dark mode"
   tags:
@@ -292,6 +326,8 @@
     key: "/org/gnome/desktop/background/picture-uri-dark"
     value: "'file://{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Set lock screen background"
   tags:
@@ -301,6 +337,8 @@
     key: "/org/gnome/desktop/screensaver/picture-uri"
     value: "'file://{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
   # gnome-screenshot must be installed for this to work
 - name: "Set screenshots location"
@@ -311,6 +349,8 @@
     key: "/org/gnome/gnome-screenshot/auto-save-directory"
     value: "'{{ ws_home_dir }}/{{ item.name }}/Pictures/Screenshots'"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Set favorite applications"
   tags:
@@ -320,6 +360,8 @@
     key: "/org/gnome/shell/favorite-apps"
     value: "{{ ws_favorite_apps }}"
   loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Configure GNOME Night Light"
   tags:

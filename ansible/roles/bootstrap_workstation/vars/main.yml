@@ -102,6 +102,8 @@ ws_users:
         value: "'none'"
       - name: "use-system-font"
         value: "false"
+      - name: "use-theme-colors"
+        value: "false"
       - name: "visible-name"
         value: "'Default'"
 

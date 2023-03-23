@@ -354,7 +354,7 @@
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/background/picture-uri-dark"
-    value: "'file://{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
+    value: "'file://{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/01_wallpaper.png'"
   loop: "{{ ws_users | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.name }}"
@@ -366,7 +366,7 @@
   become_user: "{{ item.name }}"
   community.general.dconf:
     key: "/org/gnome/desktop/screensaver/picture-uri"
-    value: "'file://{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/wallpaper_sheep.png'"
+    value: "'file://{{ ws_home_dir }}/{{ item.name }}/Pictures/Wallpapers/01_wallpaper.png'"
   loop: "{{ ws_users | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.name }}"

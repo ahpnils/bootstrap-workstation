@@ -79,6 +79,7 @@ cd ${OLDPWD}
 rm -rf "${repo_path}"
 echo "Done !"
 
-echo "Your desktop environment is now ready !"
+echo "Your desktop environment is almost ready : 
+do not forget to set up a password for your newly created user(s)."
 
 # vim:ts=2:sw=2

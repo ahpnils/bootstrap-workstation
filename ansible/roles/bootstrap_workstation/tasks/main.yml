@@ -408,6 +408,18 @@
   loop_control:
     label: "{{ item.0.name }} - {{ item.1.name }} "
 
+- name: "Configure GNOME Nautilus preferences"
+  tags:
+    - gnome
+    - nautilus
+  become_user: "{{ item.0.name }}"
+  community.general.dconf:
+    key: "/org/gnome/nautilus/preferences/{{ item.1.name }}"
+    value: "{{ item.1.value }}"
+  loop: "{{ ws_users | subelements('nautilus_prefs') }}"
+  loop_control:
+    label: "{{ item.0.name }} - {{ item.1.name }} "
+
 - name: "Set up Tilix"
   tags:
     - gnome

@@ -106,6 +106,9 @@ ws_users:
         value: "false"
       - name: "visible-name"
         value: "'Default'"
+    nautilus_prefs:
+      - name: "default-folder-viewer"
+        value: "'list-view'"
 
 ws_directory_structure:
   - "bin"

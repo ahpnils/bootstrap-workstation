@@ -74,4 +74,11 @@ ANSIBLE_LOCALHOST_WARNING=False \
 	ansible-playbook ./ansible/playbooks/bootstrap_workstation.yml
 echo "Done !"
  
+echo "Clean-up phase..."
+cd ${OLDPWD}
+rm -rf "${repo_path}"
+echo "Done !"
+
+echo "Your desktop environment is now ready !"
+
 # vim:ts=2:sw=2

@@ -200,6 +200,7 @@
     owner: "{{ item.0.name }}"
     group: "{{ item.0.name }}"
     state: link
+    force: true
   loop: "{{ ws_users | product(ws_dotfiles_symlinks) | list }}"
   loop_control:
     label: "{{ item.0.name }} - {{ item.1.src }}"

@@ -27,11 +27,24 @@
   ansible.builtin.yum_repository:
     name: "hashicorp"
     description: "Hashicorp Stable - $basearch"
-    file: "/etc/yum.repos.d/hashicorp.repo"
+    file: "hashicorp"
     baseurl: "https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable"
     gpgkey: "https://rpm.releases.hashicorp.com/gpg"
     gpgcheck: true
     enabled: true
+
+- name: "Add hashicorp test repo"
+  tags:
+    - hashicorp
+    - repositories
+  ansible.builtin.yum_repository:
+    name: "hashicorp-test"
+    description: "Hashicorp Test - $basearch"
+    file: "hashicorp"
+    baseurl: "https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/test"
+    gpgkey: "https://rpm.releases.hashicorp.com/gpg"
+    gpgcheck: true
+    enabled: false
 
 - name: "Add google-cloud-cli repo"
   tags:
@@ -40,7 +53,7 @@
   ansible.builtin.yum_repository:
     name: "google-cloud-cli"
     description: "Google Cloud CLI"
-    file: "/etc/yum.repos.d/google-cloud-sdk.repo"
+    file: "google-cloud-sdk"
     baseurl: "https://packages.cloud.google.com/yum/repos/cloud-sdk-el8-x86_64"
     gpgkey:
       - "https://packages.cloud.google.com/yum/doc/yum-key.gpg"

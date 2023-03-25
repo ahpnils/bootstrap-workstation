@@ -9,6 +9,7 @@ ws_pkg_list:
   - bat
   - btop
   - ccze
+  - deja-dup
   - exa
   - git-delta
   - hexchat

@@ -157,9 +157,9 @@
     - users
     - dirs
   ansible.builtin.file:
-    path: "{{ ws_home_dir }}/{{ item.0.name }}/{{ item.1 }}"
+    path: "{{ ws_home_dir }}/{{ item.0.name }}/{{ item.1.path }}"
     state: directory
-    mode: 0700
+    mode: "{{ item.1.mode }}"
     owner: "{{ item.0.name }}"
     group: "{{ item.0.name }}"
     force: true

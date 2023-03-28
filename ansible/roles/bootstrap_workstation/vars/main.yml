@@ -112,7 +112,7 @@ ws_users:
 
 ws_directory_structure:
   - "bin"
-  - "git/github/ahpnils"
+  - "Documents/Projects/git/github/ahpnils"
   - "libvirt/boot"
   - "libvirt/images"
   - "libvirt/cloud-init"
@@ -130,7 +130,7 @@ ws_dotfiles_commit: "a4f74d9"
 
 ws_vundle_commit: "b255382"
 
-ws_dotfiles_path: "~/git/github/ahpnils/dotfiles"
+ws_dotfiles_path: "~/Documents/Projects/git/github/ahpnils/dotfiles"
 
 ws_dotfiles_symlinks:
   - name: "bashrc"
@@ -155,7 +155,7 @@ ws_dotfiles_symlinks:
     src: "{{ ws_dotfiles_path }}/htop/htoprc"
     dest: "~/.config/htop/htoprc"
   - name: "vundle"
-    src: "~/git/github/others/Vundle.vim"
+    src: "~/Documents/Projects/git/github/others/Vundle.vim"
     dest: "~/.vim/bundle/Vundle.vim"
 
 # vim:ts=2:sw=2

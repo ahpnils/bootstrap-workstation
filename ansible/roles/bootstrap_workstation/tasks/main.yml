@@ -175,7 +175,7 @@
   become_user: "{{ item.name }}"
   ansible.builtin.git:
     repo: "https://github.com/ahpnils/dotfiles.git"
-    dest: "{{ ws_home_dir }}/{{ item.name }}/git/github/ahpnils/dotfiles/"
+    dest: "{{ ws_home_dir }}/{{ item.name }}/Documents/Projects/git/github/ahpnils/dotfiles/"
     version: "{{ ws_dotfiles_commit }}"
     clone: true
     update: true
@@ -192,7 +192,7 @@
   become_user: "{{ item.name }}"
   ansible.builtin.git:
     repo: "https://github.com/VundleVim/Vundle.vim.git"
-    dest: "{{ ws_home_dir }}/{{ item.name }}/git/github/others/Vundle.vim/"
+    dest: "{{ ws_home_dir }}/{{ item.name }}/Documents/Projects/git/github/others/Vundle.vim/"
     version: "{{ ws_vundle_commit }}"
     clone: true
     update: true

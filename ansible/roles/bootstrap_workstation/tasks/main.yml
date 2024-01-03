@@ -32,7 +32,7 @@
     gpgkey: "https://rpm.releases.hashicorp.com/gpg"
     gpgcheck: true
     enabled: true
-    excludepkgs: "vagrant"
+    exclude: "vagrant"
 
 - name: "Add hashicorp test repo"
   tags:

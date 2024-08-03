@@ -140,12 +140,10 @@ ws_directory_structure:
     mode: "0700"
   - path: ".config/htop"
     mode: "0700"
-  - path: ".vim/bundle"
+  - path: ".vim/pack/plugins/start"
     mode: "0700"
 
-ws_dotfiles_commit: "a4f74d9"
-
-ws_vundle_commit: "b255382"
+ws_dotfiles_commit: "37279c5"
 
 ws_dotfiles_path: "~/Documents/Projects/git/github/ahpnils/dotfiles"
 
@@ -171,8 +169,5 @@ ws_dotfiles_symlinks:
   - name: "htop"
     src: "{{ ws_dotfiles_path }}/htop/htoprc"
     dest: "~/.config/htop/htoprc"
-  - name: "vundle"
-    src: "~/Documents/Projects/git/github/others/Vundle.vim"
-    dest: "~/.vim/bundle/Vundle.vim"
 
 # vim:ts=2:sw=2

@@ -173,28 +173,12 @@
   tags:
     - users
     - git
+    - dotfiles
   become_user: "{{ item.name }}"
   ansible.builtin.git:
     repo: "https://github.com/ahpnils/dotfiles.git"
     dest: "{{ ws_home_dir }}/{{ item.name }}/Documents/Projects/git/github/ahpnils/dotfiles/"
     version: "{{ ws_dotfiles_commit }}"
-    clone: true
-    update: true
-    umask: "0022"
-    force: true
-  loop: "{{ ws_users | flatten(levels=1) }}"
-  loop_control:
-    label: "{{ item.name }}"
-
-- name: "Clone Vundle git repository"
-  tags:
-    - users
-    - git
-  become_user: "{{ item.name }}"
-  ansible.builtin.git:
-    repo: "https://github.com/VundleVim/Vundle.vim.git"
-    dest: "{{ ws_home_dir }}/{{ item.name }}/Documents/Projects/git/github/others/Vundle.vim/"
-    version: "{{ ws_vundle_commit }}"
     clone: true
     update: true
     umask: "0022"
@@ -219,15 +203,11 @@
   loop_control:
     label: "{{ item.0.name }} - {{ item.1.src }}"
 
-- name: "Vundle plugin installation"
+- name: "Make vim-deps"
   tags:
     - users
-    - git
-  become_user: "{{ item.name }}"
-  ansible.builtin.command: "vim +PluginInstall +qall"
-  loop: "{{ ws_users | flatten(levels=1) }}"
-  loop_control:
-    label: "{{ item.name }}"
+    - dotfiles
+  ansible.builtin.command: "make vim-deps"
   changed_when: false
 
 - name: "Extract Firefox Developer Edition"

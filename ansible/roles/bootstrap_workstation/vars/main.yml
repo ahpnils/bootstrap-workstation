@@ -11,6 +11,7 @@ ws_pkg_list:
   - ccze
   - deja-dup
   - eza
+  - fzf
   - git-delta
   - hexchat
   - htop

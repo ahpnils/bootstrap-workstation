@@ -93,6 +93,13 @@
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
     state: present
 
+- name: "Run flatpak update"
+  tags:
+    - flatpak
+    - flatpak_repo
+  ansible.builtin.command: "flatpak update"
+  changed_when: false
+
 - name: "Install more software with flatpack"
   tags:
     - flatpak

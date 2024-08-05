@@ -215,8 +215,13 @@
   tags:
     - users
     - dotfiles
-  ansible.builtin.command: "make vim-deps"
+  ansible.builtin.command:
+    cmd: "make vim-deps"
+    chdir: "{{ ws_home_dir }}/{{ item.name }}/Documents/Projects/git/github/ahpnils/dotfiles/"
   changed_when: false
+  loop: "{{ ws_users | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 - name: "Extract Firefox Developer Edition"
   tags:

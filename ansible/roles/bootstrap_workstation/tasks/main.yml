@@ -100,7 +100,7 @@
   ansible.builtin.command: "flatpak update"
   changed_when: false
 
-- name: "Install more software with flatpack"
+- name: "Install more software with flatpak"
   tags:
     - flatpak
     - flatpak_packages

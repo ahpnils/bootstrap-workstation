@@ -81,7 +81,7 @@ ws_users:
       - "org.keepassxc.KeePassXC.desktop"
       - "firefox.desktop"
       - "firefox-dev.desktop"
-      - "mozilla-thunderbird.desktop"
+      - "org.mozilla.thunderbird.desktop"
       - "com.discordapp.Discord.desktop"
       - "org.signal.Signal.desktop"
       - "io.github.Hexchat.desktop"

@@ -97,7 +97,7 @@
   tags:
     - flatpak
     - flatpak_repo
-  ansible.builtin.command: "flatpak update"
+  ansible.builtin.command: "flatpak update -y"
   changed_when: false
 
 - name: "Install more software with flatpak"

@@ -43,7 +43,7 @@ Comment[pt_BR]=Navegue na Internet
 Comment[sk]=Prehliadanie internetu
 Comment[sv]=Surfa på webben
 Exec=/home/nils/bin/firefox/firefox %u
-Icon=firefox
+Icon=/home/nils/bin/firefox/browser/chrome/icons/default/default128.png
 Terminal=false
 Type=Application
 MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;x-scheme-handler/http;x-scheme-handler/https;
@@ -51,6 +51,7 @@ StartupNotify=true
 Categories=Network;WebBrowser;
 Keywords=web;browser;internet;
 Actions=new-window;new-private-window;
+StartupWMClass=firefox-aurora
 
 X-Desktop-File-Install-Version=0.23
 

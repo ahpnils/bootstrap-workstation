@@ -62,6 +62,26 @@
     gpgcheck: true
     enabled: true
 
+- name: "Add Ghostty COPR repo"
+  tags:
+    - ghostty
+    - repositories
+    - copr
+  community.general.copr:
+    host: copr.fedorainfracloud.org
+    state: enabled
+    name: pgdev/ghostty
+
+- name: "Add Starship COPR repo"
+  tags:
+    - starship
+    - repositories
+    - copr
+  community.general.copr:
+    host: copr.fedorainfracloud.org
+    state: enabled
+    name: atim/starship
+
 - name: "Install some basic packages"
   tags:
     - packages

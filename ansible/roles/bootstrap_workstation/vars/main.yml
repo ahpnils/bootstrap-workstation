@@ -43,6 +43,8 @@ ws_fusion_pkg_list:
 
 ws_misc_pkg_list:
   - google-cloud-cli
+  - ghostty
+  - starship
   # - terraform # should be replaced with OpenTofu
 
 ws_pak_list:
@@ -79,7 +81,7 @@ ws_users:
       - name: "night-light-temperature"
         value: "'uint32 1700'"
     favorite_apps:
-      - "com.gexperts.Tilix.desktop"
+      - "com.mitchellh.ghostty.desktop"
       - "org.keepassxc.KeePassXC.desktop"
       - "firefox.desktop"
       - "firefox-dev.desktop"

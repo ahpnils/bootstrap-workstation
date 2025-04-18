@@ -5,6 +5,7 @@ ws_dep_pkg_list:
   - python3-psutil
 
 ws_pkg_list:
+  - ShellCheck
   - bash-completion
   - bat
   - btop
@@ -12,7 +13,12 @@ ws_pkg_list:
   - deja-dup
   - eza
   - fzf
+  - gh
   - git-delta
+  - gnome-screenshot
+  - gnome-shell-extension-caffeine
+  - gnome-shell-extension-freon
+  - gnome-tweaks
   - hexchat
   - htop
   - iftop
@@ -20,19 +26,16 @@ ws_pkg_list:
   - lm_sensors
   - make
   - most
-  - gh
-  - gnome-tweaks
-  - gnome-screenshot
-  - gnome-shell-extension-freon
-  - gnome-shell-extension-caffeine
+  - nvtop
+  - opentofu
   - rsync
-  - ShellCheck
   - thunderbird
   - tilix
   - tmux
   - tree
   - vim-enhanced
   - virt-manager
+  - virt-top
 
 ws_fusion_pkg_list:
   - gstreamer1-plugins-bad-freeworld
@@ -41,16 +44,16 @@ ws_fusion_pkg_list:
 
 ws_misc_pkg_list:
   - google-cloud-cli
-  # - terraform
+  # - terraform # should be replaced with OpenTofu
 
 ws_pak_list:
-  - com.spotify.Client
   - com.discordapp.Discord
   - com.jgraph.drawio.desktop
+  - com.obsproject.Studio
+  - com.spotify.Client
+  - org.gnome.Extensions
   - org.signal.Signal
   - org.telegram.desktop
-  - org.gnome.Extensions
-  - com.obsproject.Studio
 
 
 ws_home_dir: "/home"
